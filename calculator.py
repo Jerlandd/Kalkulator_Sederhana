@@ -25,15 +25,47 @@ window = tkinter.Tk () #create the window
 window.title("calculator")
 window.resizable(False,False)
 
-frame = tkinter.Frame (window)
+frame = tkinter.Frame (window) 
 label = tkinter.Label (frame, text="0",font=("Arial", 45), background=color_black,
-                       foreground= color_white)
+                       foreground= color_white,anchor="e")
 
+label.grid(row=0 , column=0, columnspan=column_count, sticky="we")
 
-label.pack()
+for row in range(row_count) :
+    for column in range(column_count):
+        value = button_values[row][column]
+        button = tkinter.Button (frame, text=value,font=("Arial", 30),
+                                width=column_count -1, height= 1,
+                                command=lambda value=value : button_clicked(value))
+
+        if value in top_symbols :
+            button.config(foreground=color_black, background=color_light_gray)
+        elif value in right_symbols :
+            button.config(foreground=color_white, background=color_orange)
+        else :
+            button.config(foreground=color_white, background=color_dark_gray)
+
+        button.grid(row=row+1,column=column)
+    
 frame.pack()
 
+def button_clicked(value) :
+    pass 
 
+#center the windows
+window.update() #update window  with the new size dimensions
+window_width = window.winfo_width()
+window_height = window.winfo_height()
+screen_width = window.winfo_screenwidth()
+screen_height =window.winfo_screenheight()
+
+window_x = int((screen_width/2)) - ((window_width/2))
+window_y = int((screen_height/2)) - ((window_height/2))
+
+#format "(w)x(h)+(x)+(y)"
+window.geometry(
+    f"{int(window_width)}x{int(window_height)}+{int(window_x)}+{int(window_y)}"
+)
 
 
 window.mainloop()
